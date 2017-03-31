@@ -250,11 +250,6 @@ public class Local extends Board {
         // Move the temporary file into place
         if(!tempFile.renameTo(outputFile))
             throw new ContentStoreException("Unable to move temporary file " + tempFilePath + "/" + filename + " into place");
-
-        try {
-        } catch(IOException e) {
-            throw new ContentStoreException("IOException trying to get filename for output file (nice broken filesystem you have there)", e);
-        }
     }
 }
 
