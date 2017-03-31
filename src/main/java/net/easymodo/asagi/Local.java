@@ -24,13 +24,9 @@ public class Local extends Board {
     private final static int FULL_FILE = 1;
     private final static int TEMP_FILE = 2;
 
-    private final static boolean posix;
     private DB db;
 
     private final static Pattern oldDirectoryMatchingPattern = Pattern.compile("(\\d+?)(\\d{2})\\d{0,3}$");
-	static {
-	    posix = null;
-	}
 
 
     public Local(String path, BoardSettings info, DB db) {
