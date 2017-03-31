@@ -28,7 +28,6 @@ It uses:
 * Joda Time to be able to do anything with dates in Java without losing one's sanity
 * Gson to read the configuration file
 * Guava for small extras that are nice to have here and there
-* JNA to be able to perform chown/chmod/getgrnam on Unix platforms
 * Maven for dependency resolution and building
 
 ## FAQ
