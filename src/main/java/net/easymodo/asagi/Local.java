@@ -1,7 +1,6 @@
 package net.easymodo.asagi;
 
 import com.google.common.io.ByteStreams;
-import com.sun.jna.Native;
 import com.sun.jna.Platform;
 import net.easymodo.asagi.exception.ContentGetException;
 import net.easymodo.asagi.exception.ContentStoreException;
