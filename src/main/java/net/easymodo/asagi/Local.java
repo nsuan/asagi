@@ -6,8 +6,6 @@ import net.easymodo.asagi.exception.ContentGetException;
 import net.easymodo.asagi.exception.ContentStoreException;
 import net.easymodo.asagi.exception.DBConnectionException;
 import net.easymodo.asagi.model.*;
-import net.easymodo.asagi.posix.Group;
-import net.easymodo.asagi.posix.Posix;
 import net.easymodo.asagi.settings.BoardSettings;
 import org.apache.http.annotation.ThreadSafe;
 
@@ -31,13 +29,8 @@ public class Local extends Board {
 
     private final static Pattern oldDirectoryMatchingPattern = Pattern.compile("(\\d+?)(\\d{2})\\d{0,3}$");
 
-    static {
-        if(Platform.isWindows()) {
-          posix = null;
-        } else {
-          posix = (Posix)Native.loadLibrary("c", Posix.class);
-        }
-    }
+    posix = null;
+
 
     public Local(String path, BoardSettings info, DB db) {
         this.path = path;
@@ -160,15 +153,6 @@ public class Local extends Board {
                 if(!tempDirFile.mkdirs())
                     throw new ContentStoreException("Could not create temp dir at path " + tempDir);
 
-            if(this.webGroupId != 0) {
-                posix.chmod(subDir, 0775);
-                posix.chmod(subDir2, 0775);
-                posix.chown(subDir, -1, this.webGroupId);
-                posix.chown(subDir2, -1, this.webGroupId);
-
-                posix.chmod(tempDir, 0775);
-                posix.chown(tempDir, -1, this.webGroupId);
-            }
         }
 
         return this.getDir(subdirs, dirType, fileType);
@@ -278,10 +262,6 @@ public class Local extends Board {
             throw new ContentStoreException("Unable to move temporary file " + tempFilePath + "/" + filename + " into place");
 
         try {
-            if(this.webGroupId != 0) {
-                posix.chmod(outputFile.getCanonicalPath(), 0664);
-                posix.chown(outputFile.getCanonicalPath(), -1, this.webGroupId);
-            }
         } catch(IOException e) {
             throw new ContentStoreException("IOException trying to get filename for output file (nice broken filesystem you have there)", e);
         }
