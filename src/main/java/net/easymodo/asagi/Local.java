@@ -24,7 +24,7 @@ public class Local extends Board {
     private final static int FULL_FILE = 1;
     private final static int TEMP_FILE = 2;
 
-    private final static Posix posix;
+    private final static boolean posix;
     private DB db;
 
     private final static Pattern oldDirectoryMatchingPattern = Pattern.compile("(\\d+?)(\\d{2})\\d{0,3}$");
@@ -44,15 +44,8 @@ public class Local extends Board {
         // chown from the C library (which are reentrant functions) keeps this
         // class thread-safe.
         String webServerGroup = info.getWebserverGroup();
-        if(webServerGroup != null && posix != null) {
-            Group group = posix.getgrnam(webServerGroup);
-            if(group == null)
-                webGroupId = 0;
-            else
-                webGroupId = (int)group.getGid();
-        } else {
-            webGroupId = 0;
-        }
+        webGroupId = 0;
+        
     }
 
     @Override
